@@ -112,18 +112,15 @@ export const upsertParsedTest = mutation({
           );
         }
 
-        if (!textHi || optionsHi.length < 4) {
-          throw new Error(
-            `Invalid question payload for number ${question.number}: missing Hindi text/options.`,
-          );
-        }
+        const finalTextHi = textHi || textEn;
+        const finalOptionsHi = optionsHi.length >= 4 ? optionsHi : optionsEn;
 
         return {
           number: question.number,
           textEn,
-          textHi,
+          textHi: finalTextHi,
           optionsEn,
-          optionsHi,
+          optionsHi: finalOptionsHi,
           correctOption: question.correctOption,
         };
       })

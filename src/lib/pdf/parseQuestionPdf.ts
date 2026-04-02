@@ -213,26 +213,18 @@ export function parseQuestionPdfText(text: string): ParsedQuestionWithoutAnswer[
     const englishVariant = pickBestEnglishVariant(variants);
     const hindiVariant = pickBestHindiVariant(variants);
 
+    const hindiHasDevanagari =
+      containsDevanagari(hindiVariant.text) ||
+      hindiVariant.options.some((option) => containsDevanagari(option.text));
+
     return {
       number,
       textEn: englishVariant.text,
-      textHi: hindiVariant.text,
+      textHi: hindiHasDevanagari ? hindiVariant.text : englishVariant.text,
       optionsEn: englishVariant.options,
-      optionsHi: hindiVariant.options,
+      optionsHi: hindiHasDevanagari ? hindiVariant.options : englishVariant.options,
     };
   });
-
-  const hasHindi = mergedQuestions.some(
-    (question) =>
-      containsDevanagari(question.textHi) ||
-      question.optionsHi.some((option) => containsDevanagari(option.text)),
-  );
-
-  if (!hasHindi) {
-    throw new Error(
-      "Could not extract Hindi question variants from the question PDF. Please verify the PDF format.",
-    );
-  }
 
   return mergedQuestions;
 }

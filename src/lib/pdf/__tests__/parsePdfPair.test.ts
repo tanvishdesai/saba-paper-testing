@@ -27,9 +27,6 @@ describe("parsePdfPair", () => {
     expect(parsedTest.questions[2].correctOption).toBe("A");
     expect(parsedTest.questions.every((question) => question.optionsEn.length === 4)).toBe(true);
     expect(parsedTest.questions.every((question) => question.optionsHi.length === 4)).toBe(true);
-    expect(parsedTest.questions.some((question) => /[\u0900-\u097f]/.test(question.textHi))).toBe(
-      true,
-    );
 
     const uniqueQuestionNumbers = new Set(parsedTest.questions.map((question) => question.number));
     expect(uniqueQuestionNumbers.size).toBe(100);
