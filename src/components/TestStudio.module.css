@@ -1,0 +1,308 @@
+.page {
+  width: min(1200px, 92vw);
+  margin: 0 auto;
+  padding: 2.5rem 0 3.5rem;
+  animation: fadeIn 0.45s ease-out;
+}
+
+.hero {
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.92), rgba(23, 88, 150, 0.85));
+  color: #f7f9fb;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 24px 44px rgba(13, 45, 69, 0.21);
+}
+
+.badge {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  font-size: clamp(1.9rem, 4.8vw, 3.1rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.hero p {
+  max-width: 65ch;
+  margin: 1rem 0 0;
+  color: rgba(247, 249, 251, 0.95);
+}
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.2rem;
+  box-shadow: 0 10px 20px rgba(15, 43, 67, 0.08);
+}
+
+.panel h2 {
+  margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  font-size: 1.35rem;
+}
+
+.panelCopy {
+  margin: 0.7rem 0 1rem;
+  color: var(--ink-soft);
+}
+
+.uploadForm {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.field span {
+  color: var(--ink-soft);
+}
+
+.field input[type="text"],
+.field input[type="file"] {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  padding: 0.7rem 0.75rem;
+  font: inherit;
+}
+
+.uploadForm button {
+  border: 0;
+  border-radius: 12px;
+  padding: 0.75rem 0.95rem;
+  font-weight: 600;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  background: linear-gradient(135deg, var(--highlight), #dc5f2c);
+  color: #fffaf4;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.uploadForm button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(220, 95, 44, 0.25);
+}
+
+.uploadForm button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.testsList {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.testCard {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.15rem;
+  cursor: pointer;
+  transition: border-color 0.16s ease, transform 0.16s ease;
+}
+
+.testCard:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.testCard strong {
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  color: var(--ink);
+}
+
+.dateLine {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.feedbackArea {
+  margin-top: 1rem;
+  min-height: 1.7rem;
+}
+
+.info,
+.error {
+  margin: 0;
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+}
+
+.info {
+  background: rgba(15, 118, 110, 0.12);
+  border: 1px solid rgba(15, 118, 110, 0.3);
+  color: #134645;
+}
+
+.error {
+  background: rgba(204, 61, 41, 0.11);
+  border: 1px solid rgba(204, 61, 41, 0.35);
+  color: #7b2416;
+}
+
+.emptyState {
+  margin: 0.85rem 0 0;
+  color: var(--ink-soft);
+}
+
+.questionMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.languageToggle {
+  margin-top: 0.8rem;
+  display: inline-flex;
+  gap: 0.45rem;
+}
+
+.languageButton {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 0.38rem 0.75rem;
+  cursor: pointer;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.languageButtonActive {
+  border-color: var(--accent);
+  background: rgba(15, 118, 110, 0.16);
+  color: var(--accent-strong);
+}
+
+.questionPicker {
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 0.42rem;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.questionNumber {
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 0.45rem 0.2rem;
+  cursor: pointer;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.questionNumberActive {
+  border-color: var(--accent);
+  background: rgba(15, 118, 110, 0.16);
+  color: var(--accent-strong);
+}
+
+.questionCard {
+  margin-top: 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 1rem;
+  animation: slideUp 0.22s ease;
+}
+
+.questionCard h3 {
+  margin: 0;
+  font-size: 1.03rem;
+  line-height: 1.5;
+}
+
+.hindiText {
+  font-family: var(--font-hindi), "Noto Sans Devanagari", "Mangal", sans-serif;
+  line-height: 1.8;
+}
+
+.optionsList {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.option {
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 0.65rem 0.75rem;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 0.55rem;
+  align-items: start;
+}
+
+.optionLabel {
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  color: var(--ink-soft);
+}
+
+.optionCorrect {
+  border-color: rgba(31, 143, 88, 0.42);
+  background: rgba(31, 143, 88, 0.11);
+}
+
+.optionCorrect .optionLabel {
+  color: var(--ok);
+  font-weight: 700;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
