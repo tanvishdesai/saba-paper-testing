@@ -11,19 +11,33 @@ export const runtime = "nodejs";
 export async function POST() {
   try {
     const cwd = process.cwd();
-    const pair = discoverPdfPair(cwd);
+    let pair;
+    try {
+      pair = discoverPdfPair(cwd);
+    } catch (fsError) {
+      // readdirSync might throw if directory access is weird
+      console.warn("Bootstrap discoverPdfPair warning:", fsError);
+      pair = null;
+    }
 
     if (!pair) {
       return NextResponse.json(
-        { error: "Could not find both a question PDF and an answer PDF in the project root." },
+        { error: "Could not find both a question PDF and an answer PDF in the project root. (On Vercel, this is expected since PDFs are not deployed in the project root)." },
         { status: 404 },
       );
     }
 
     const [questionPdfBuffer, answerPdfBuffer] = await Promise.all([
-      readFile(pair.questionPath),
-      readFile(pair.answerPath),
+      readFile(pair.questionPath).catch(() => null),
+      readFile(pair.answerPath).catch(() => null),
     ]);
+
+    if (!questionPdfBuffer || !answerPdfBuffer) {
+      return NextResponse.json(
+        { error: "Found PDF pair but could not read the files. (On Vercel, this is expected since PDFs are not deployed)." },
+        { status: 404 },
+      );
+    }
 
     const parsedTest = await parsePdfPair({
       questionPdfBuffer,
@@ -61,6 +75,7 @@ export async function POST() {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to bootstrap sample test.";
+    console.error("Bootstrap error:", error);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
