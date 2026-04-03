@@ -47,6 +47,9 @@ export function TestStudio() {
   const [isUploading, setIsUploading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [hasStartedTest, setHasStartedTest] = useState(false);
+  const [showFinalScore, setShowFinalScore] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
 
   const currentQuestion = useMemo(() => {
     if (!selectedTest) {
@@ -58,6 +61,21 @@ export function TestStudio() {
       null
     );
   }, [selectedQuestionNumber, selectedTest]);
+
+  const totalQuestions = selectedTest?.questionCount ?? 0;
+  const answeredCount = Object.keys(selectedOptions).length;
+  const score = useMemo(() => {
+    if (!selectedTest) {
+      return 0;
+    }
+
+    return selectedTest.questions.reduce((correctCount, question) => {
+      if (selectedOptions[question.number] === question.correctOption) {
+        return correctCount + 1;
+      }
+      return correctCount;
+    }, 0);
+  }, [selectedOptions, selectedTest]);
 
   async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
     const response = await fetch(url, {
@@ -75,6 +93,9 @@ export function TestStudio() {
     const response = await fetchJson<TestDetailResponse>(`/api/tests/${testId}`);
     setSelectedTest(response.test);
     setSelectedQuestionNumber(response.test.questions[0]?.number ?? 1);
+    setHasStartedTest(false);
+    setShowFinalScore(false);
+    setSelectedOptions({});
   }
 
   async function loadTests({ preserveSelection }: { preserveSelection: boolean }) {
@@ -166,6 +187,41 @@ export function TestStudio() {
     }
   }
 
+  function handleStartTest() {
+    setHasStartedTest(true);
+    setShowFinalScore(false);
+    setSelectedOptions({});
+    setSelectedQuestionNumber(selectedTest?.questions[0]?.number ?? 1);
+  }
+
+  function handleSelectOption(question: StoredQuestion, optionLabel: string) {
+    if (!hasStartedTest || selectedOptions[question.number]) {
+      return;
+    }
+
+    setSelectedOptions((previous) => ({
+      ...previous,
+      [question.number]: optionLabel,
+    }));
+  }
+
+  function getOptionClassName(question: StoredQuestion, optionLabel: string) {
+    const selectedOption = selectedOptions[question.number];
+    if (!selectedOption) {
+      return styles.option;
+    }
+
+    if (optionLabel === question.correctOption) {
+      return `${styles.option} ${styles.optionCorrect}`;
+    }
+
+    if (optionLabel === selectedOption) {
+      return `${styles.option} ${styles.optionWrong}`;
+    }
+
+    return styles.option;
+  }
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -242,8 +298,30 @@ export function TestStudio() {
               <span>
                 {selectedTest.title} - {selectedTest.questionCount} questions
               </span>
-              <span>Correct option shown in green</span>
+              <span>
+                {hasStartedTest
+                  ? `Answered ${answeredCount}/${totalQuestions}`
+                  : "Start test to attempt questions"}
+              </span>
             </div>
+            <div className={styles.testActions}>
+              <button className={styles.startButton} onClick={handleStartTest} type="button">
+                {hasStartedTest ? "Restart Test" : "Start Test"}
+              </button>
+              <button
+                className={styles.finishButton}
+                disabled={!hasStartedTest || answeredCount < totalQuestions}
+                onClick={() => setShowFinalScore(true)}
+                type="button"
+              >
+                Finish Test
+              </button>
+            </div>
+            {showFinalScore && (
+              <p className={styles.scoreLine}>
+                Score: {score}/{totalQuestions}
+              </p>
+            )}
             <div className={styles.languageToggle}>
               <button
                 className={
@@ -294,15 +372,18 @@ export function TestStudio() {
               <ul className={styles.optionsList}>
                 {getQuestionOptions(currentQuestion, selectedLanguage).map((option) => (
                   <li
-                    className={
-                      option.label === currentQuestion.correctOption
-                        ? `${styles.option} ${styles.optionCorrect}`
-                        : styles.option
-                    }
+                    className={getOptionClassName(currentQuestion, option.label)}
                     key={option.label}
                   >
                     <span className={styles.optionLabel}>{option.label}</span>
-                    <span>{option.text}</span>
+                    <button
+                      className={styles.optionButton}
+                      disabled={!hasStartedTest || Boolean(selectedOptions[currentQuestion.number])}
+                      onClick={() => handleSelectOption(currentQuestion, option.label)}
+                      type="button"
+                    >
+                      {option.text}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -313,4 +394,3 @@ export function TestStudio() {
     </main>
   );
 }
-
