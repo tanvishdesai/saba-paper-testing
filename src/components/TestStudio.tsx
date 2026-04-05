@@ -64,6 +64,9 @@ export function TestStudio() {
 
   const totalQuestions = selectedTest?.questionCount ?? 0;
   const answeredCount = Object.keys(selectedOptions).length;
+  const unansweredCount = Math.max(totalQuestions - answeredCount, 0);
+  const progressPercent = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
+
   const score = useMemo(() => {
     if (!selectedTest) {
       return 0;
@@ -225,21 +228,36 @@ export function TestStudio() {
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
-        <p className={styles.badge}>Next.js + Convex + PDF Parsing</p>
-        <h1>Test Builder Studio</h1>
-        <p>
-          Question banks and answer keys are mapped into bilingual tests (English + Hindi), then
-          stored in Convex for instant availability.
-        </p>
+        <div>
+          <p className={styles.badge}>Assessment Lab</p>
+          <h1>Parse PDFs. Launch practice tests. Review score instantly.</h1>
+          <p>
+            A cleaner workflow for your test environment: upload question + answer-key PDFs and
+            run bilingual (English/Hindi) attempts with one click.
+          </p>
+        </div>
+        <div className={styles.heroStats}>
+          <article>
+            <span>Stored tests</span>
+            <strong>{tests.length}</strong>
+          </article>
+          <article>
+            <span>Active bank</span>
+            <strong>{selectedTest?.title ?? "Not selected"}</strong>
+          </article>
+          <article>
+            <span>Attempt mode</span>
+            <strong>{hasStartedTest ? "Live" : "Idle"}</strong>
+          </article>
+        </div>
       </section>
 
-      <section className={styles.panelGrid}>
+      <section className={styles.workspaceGrid}>
         <article className={styles.panel}>
-          <h2>Upload New Test Pair</h2>
-          <p className={styles.panelCopy}>
-            Upload one question PDF and one answer-key PDF in the same format. The app parses,
-            maps, and stores both language versions automatically.
-          </p>
+          <header className={styles.panelHeader}>
+            <h2>1) Upload & Parse</h2>
+            <p>Bring in a question PDF and answer-key PDF pair.</p>
+          </header>
           <form className={styles.uploadForm} onSubmit={handleUpload}>
             <label className={styles.field}>
               <span>Test title (optional)</span>
@@ -260,14 +278,21 @@ export function TestStudio() {
         </article>
 
         <article className={styles.panel}>
-          <h2>Available Tests</h2>
+          <header className={styles.panelHeader}>
+            <h2>2) Test Library</h2>
+            <p>Select a saved test to begin or preview.</p>
+          </header>
           <div className={styles.testsList}>
             {tests.length === 0 ? (
               <p className={styles.emptyState}>No tests yet.</p>
             ) : (
               tests.map((test) => (
                 <button
-                  className={styles.testCard}
+                  className={
+                    selectedTest?._id === test._id
+                      ? `${styles.testCard} ${styles.testCardActive}`
+                      : styles.testCard
+                  }
                   key={test._id}
                   onClick={() => void loadTestById(test._id)}
                   type="button"
@@ -289,21 +314,48 @@ export function TestStudio() {
       </section>
 
       <section className={styles.panel}>
-        <h2>Question Preview</h2>
+        <header className={styles.panelHeader}>
+          <h2>3) Attempt & Evaluate</h2>
+          <p>Preview questions, run full attempts, and review performance.</p>
+        </header>
+
         {!currentQuestion || !selectedTest ? (
           <p className={styles.emptyState}>Select a test to preview questions and correct answers.</p>
         ) : (
           <>
-            <div className={styles.questionMeta}>
-              <span>
-                {selectedTest.title} - {selectedTest.questionCount} questions
-              </span>
-              <span>
-                {hasStartedTest
-                  ? `Answered ${answeredCount}/${totalQuestions}`
-                  : "Start test to attempt questions"}
-              </span>
+            <div className={styles.metricsRow}>
+              <article>
+                <span>Total</span>
+                <strong>{totalQuestions}</strong>
+              </article>
+              <article>
+                <span>Answered</span>
+                <strong>{answeredCount}</strong>
+              </article>
+              <article>
+                <span>Unanswered</span>
+                <strong>{unansweredCount}</strong>
+              </article>
+              <article>
+                <span>Language</span>
+                <strong>{selectedLanguage === "en" ? "English" : "Hindi"}</strong>
+              </article>
             </div>
+
+            <div className={styles.progressBlock}>
+              <div>
+                <p>{selectedTest.title}</p>
+                <span>
+                  {hasStartedTest
+                    ? `Progress ${answeredCount}/${totalQuestions}`
+                    : "Start test to begin tracking progress"}
+                </span>
+              </div>
+              <div className={styles.progressTrack}>
+                <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+              </div>
+            </div>
+
             <div className={styles.testActions}>
               <button className={styles.startButton} onClick={handleStartTest} type="button">
                 {hasStartedTest ? "Restart Test" : "Start Test"}
@@ -322,6 +374,7 @@ export function TestStudio() {
                 Score: {score}/{totalQuestions}
               </p>
             )}
+
             <div className={styles.languageToggle}>
               <button
                 className={
@@ -346,6 +399,7 @@ export function TestStudio() {
                 Hindi
               </button>
             </div>
+
             <div className={styles.questionPicker}>
               {selectedTest.questions.map((question) => (
                 <button
@@ -362,6 +416,7 @@ export function TestStudio() {
                 </button>
               ))}
             </div>
+
             <article
               className={`${styles.questionCard} ${selectedLanguage === "hi" ? styles.hindiText : ""}`}
               lang={selectedLanguage === "hi" ? "hi" : "en"}
@@ -371,10 +426,7 @@ export function TestStudio() {
               </h3>
               <ul className={styles.optionsList}>
                 {getQuestionOptions(currentQuestion, selectedLanguage).map((option) => (
-                  <li
-                    className={getOptionClassName(currentQuestion, option.label)}
-                    key={option.label}
-                  >
+                  <li className={getOptionClassName(currentQuestion, option.label)} key={option.label}>
                     <span className={styles.optionLabel}>{option.label}</span>
                     <button
                       className={styles.optionButton}

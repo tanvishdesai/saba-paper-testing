@@ -1,82 +1,119 @@
 .page {
   width: min(1200px, 92vw);
   margin: 0 auto;
-  padding: 2.5rem 0 3.5rem;
-  animation: fadeIn 0.45s ease-out;
+  padding: 2.25rem 0 3.75rem;
+  display: grid;
+  gap: 1.15rem;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .hero {
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.92), rgba(23, 88, 150, 0.85));
-  color: #f7f9fb;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(255, 255, 255, 0.28), transparent 28%),
+    linear-gradient(130deg, rgba(11, 76, 81, 0.96), rgba(32, 95, 164, 0.9));
+  color: #f5f8fd;
   border-radius: 24px;
-  padding: 2.5rem;
-  box-shadow: 0 24px 44px rgba(13, 45, 69, 0.21);
+  padding: clamp(1.15rem, 2.3vw, 2rem);
+  display: grid;
+  gap: 1rem;
+  align-items: end;
+  box-shadow: 0 22px 45px rgba(12, 36, 61, 0.28);
 }
 
 .badge {
   display: inline-block;
-  margin: 0 0 1rem;
-  padding: 0.35rem 0.7rem;
+  margin: 0 0 0.9rem;
+  padding: 0.32rem 0.7rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  font-size: 0.76rem;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .hero h1 {
-  font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  font-size: clamp(1.9rem, 4.8vw, 3.1rem);
-  line-height: 1.1;
   margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
+  line-height: 1.2;
+  max-width: 26ch;
 }
 
 .hero p {
-  max-width: 65ch;
-  margin: 1rem 0 0;
-  color: rgba(247, 249, 251, 0.95);
+  margin: 0.8rem 0 0;
+  max-width: 70ch;
+  color: rgba(245, 248, 253, 0.92);
 }
 
-.panelGrid {
+.heroStats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.heroStats article {
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  padding: 0.72rem 0.78rem;
+  min-height: 74px;
+}
+
+.heroStats span {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.heroStats strong {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  line-height: 1.3;
+}
+
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;
-  margin-top: 1.2rem;
 }
 
 .panel {
   background: var(--bg-card);
-  backdrop-filter: blur(4px);
   border: 1px solid var(--line);
   border-radius: 18px;
-  padding: 1.2rem;
-  box-shadow: 0 10px 20px rgba(15, 43, 67, 0.08);
+  padding: 1rem;
+  box-shadow: 0 14px 24px rgba(18, 38, 61, 0.08);
 }
 
-.panel h2 {
+.panelHeader {
+  margin-bottom: 0.8rem;
+}
+
+.panelHeader h2 {
   margin: 0;
+  font-size: 1.22rem;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  font-size: 1.35rem;
 }
 
-.panelCopy {
-  margin: 0.7rem 0 1rem;
+.panelHeader p {
+  margin: 0.35rem 0 0;
   color: var(--ink-soft);
 }
 
 .uploadForm {
   display: grid;
-  gap: 0.85rem;
+  gap: 0.78rem;
 }
 
 .field {
   display: grid;
   gap: 0.35rem;
-  font-size: 0.9rem;
 }
 
 .field span {
   color: var(--ink-soft);
+  font-size: 0.9rem;
 }
 
 .field input[type="text"],
@@ -86,36 +123,38 @@
   border: 1px solid var(--line);
   background: #fff;
   color: var(--ink);
-  padding: 0.7rem 0.75rem;
+  padding: 0.68rem 0.72rem;
   font: inherit;
 }
 
 .uploadForm button {
   border: 0;
   border-radius: 12px;
-  padding: 0.75rem 0.95rem;
-  font-weight: 600;
+  padding: 0.76rem 0.95rem;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  background: linear-gradient(135deg, var(--highlight), #dc5f2c);
-  color: #fffaf4;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--highlight), #d76334);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
 }
 
 .uploadForm button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(220, 95, 44, 0.25);
+  box-shadow: 0 8px 17px rgba(209, 98, 54, 0.25);
 }
 
 .uploadForm button:disabled {
+  opacity: 0.66;
   cursor: not-allowed;
-  opacity: 0.65;
 }
 
 .testsList {
-  margin-top: 0.9rem;
   display: grid;
-  gap: 0.65rem;
+  gap: 0.58rem;
+  max-height: 346px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
 }
 
 .testCard {
@@ -124,93 +163,145 @@
   border: 1px solid var(--line);
   background: #fff;
   border-radius: 12px;
-  padding: 0.75rem;
+  padding: 0.72rem;
   display: grid;
-  gap: 0.15rem;
+  gap: 0.18rem;
   cursor: pointer;
-  transition: border-color 0.16s ease, transform 0.16s ease;
+  transition: transform 0.14s ease, border-color 0.14s ease;
 }
 
 .testCard:hover {
-  border-color: var(--accent);
   transform: translateY(-1px);
+  border-color: var(--accent);
+}
+
+.testCardActive {
+  border-color: var(--accent);
+  background: rgba(15, 118, 110, 0.09);
 }
 
 .testCard strong {
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  color: var(--ink);
 }
 
 .dateLine {
-  font-size: 0.82rem;
   color: var(--ink-soft);
+  font-size: 0.82rem;
 }
 
 .feedbackArea {
-  margin-top: 1rem;
-  min-height: 1.7rem;
+  min-height: 1.8rem;
 }
 
 .info,
 .error {
   margin: 0;
   border-radius: 12px;
-  padding: 0.7rem 0.9rem;
+  padding: 0.68rem 0.84rem;
 }
 
 .info {
   background: rgba(15, 118, 110, 0.12);
   border: 1px solid rgba(15, 118, 110, 0.3);
-  color: #134645;
+  color: #124443;
 }
 
 .error {
   background: rgba(204, 61, 41, 0.11);
-  border: 1px solid rgba(204, 61, 41, 0.35);
-  color: #7b2416;
+  border: 1px solid rgba(204, 61, 41, 0.34);
+  color: #7a2315;
 }
 
 .emptyState {
-  margin: 0.85rem 0 0;
+  margin: 0.6rem 0 0;
   color: var(--ink-soft);
 }
 
-.questionMeta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.6rem;
-  margin-top: 0.8rem;
+.metricsRow {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+}
+
+.metricsRow article {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 11px;
+  padding: 0.55rem 0.68rem;
+}
+
+.metricsRow span {
   color: var(--ink-soft);
+  display: block;
+  font-size: 0.8rem;
+}
+
+.metricsRow strong {
+  margin-top: 0.25rem;
+  display: block;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.progressBlock {
+  margin-top: 0.84rem;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 0.72rem;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.progressBlock p {
+  margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.progressBlock span {
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+}
+
+.progressTrack {
+  margin-top: 0.55rem;
+  background: rgba(15, 118, 110, 0.14);
+  border-radius: 999px;
+  height: 9px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #3b8fe3);
+  transition: width 0.2s ease;
 }
 
 .testActions {
-  margin-top: 0.8rem;
+  margin-top: 0.75rem;
   display: flex;
-  gap: 0.55rem;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .startButton,
 .finishButton {
+  border-radius: 10px;
+  padding: 0.46rem 0.8rem;
+  cursor: pointer;
   border: 1px solid var(--line);
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
   background: #fff;
   color: var(--ink);
-  border-radius: 10px;
-  padding: 0.48rem 0.8rem;
-  cursor: pointer;
-  font-family: var(--font-display), "Trebuchet MS", sans-serif;
 }
 
 .startButton {
   border-color: var(--accent);
-  background: rgba(15, 118, 110, 0.14);
   color: var(--accent-strong);
+  background: rgba(15, 118, 110, 0.13);
 }
 
 .finishButton:disabled {
-  cursor: not-allowed;
   opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .scoreLine {
@@ -220,60 +311,59 @@
 }
 
 .languageToggle {
-  margin-top: 0.8rem;
+  margin-top: 0.78rem;
   display: inline-flex;
-  gap: 0.45rem;
+  gap: 0.4rem;
 }
 
 .languageButton {
   border: 1px solid var(--line);
+  border-radius: 999px;
   background: #fff;
   color: var(--ink-soft);
-  border-radius: 999px;
-  padding: 0.38rem 0.75rem;
+  padding: 0.36rem 0.74rem;
   cursor: pointer;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
 }
 
 .languageButtonActive {
   border-color: var(--accent);
-  background: rgba(15, 118, 110, 0.16);
   color: var(--accent-strong);
+  background: rgba(15, 118, 110, 0.14);
 }
 
 .questionPicker {
-  margin-top: 0.85rem;
+  margin-top: 0.8rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
   gap: 0.42rem;
-  max-height: 250px;
+  max-height: 240px;
   overflow-y: auto;
-  padding-right: 0.25rem;
+  padding-right: 0.2rem;
 }
 
 .questionNumber {
   border: 1px solid var(--line);
-  background: #ffffff;
+  background: #fff;
   color: var(--ink);
   border-radius: 10px;
-  padding: 0.45rem 0.2rem;
+  padding: 0.4rem 0.2rem;
   cursor: pointer;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
 }
 
 .questionNumberActive {
   border-color: var(--accent);
-  background: rgba(15, 118, 110, 0.16);
+  background: rgba(15, 118, 110, 0.15);
   color: var(--accent-strong);
 }
 
 .questionCard {
-  margin-top: 0.95rem;
+  margin-top: 0.88rem;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: #ffffff;
+  background: #fff;
   padding: 1rem;
-  animation: slideUp 0.22s ease;
 }
 
 .questionCard h3 {
@@ -292,13 +382,13 @@
   margin: 0.9rem 0 0;
   padding: 0;
   display: grid;
-  gap: 0.55rem;
+  gap: 0.52rem;
 }
 
 .option {
   border: 1px solid var(--line);
   border-radius: 11px;
-  padding: 0.65rem 0.75rem;
+  padding: 0.62rem 0.75rem;
   display: grid;
   grid-template-columns: 22px 1fr;
   gap: 0.55rem;
@@ -321,13 +411,13 @@
 }
 
 .optionLabel {
-  font-family: var(--font-display), "Trebuchet MS", sans-serif;
   color: var(--ink-soft);
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
 }
 
 .optionCorrect {
-  border-color: rgba(31, 143, 88, 0.42);
-  background: rgba(31, 143, 88, 0.11);
+  border-color: rgba(31, 143, 88, 0.43);
+  background: rgba(31, 143, 88, 0.12);
 }
 
 .optionCorrect .optionLabel {
@@ -336,8 +426,8 @@
 }
 
 .optionWrong {
-  border-color: rgba(200, 65, 48, 0.45);
-  background: rgba(200, 65, 48, 0.12);
+  border-color: rgba(200, 65, 48, 0.42);
+  background: rgba(200, 65, 48, 0.11);
 }
 
 .optionWrong .optionLabel {
@@ -345,22 +435,26 @@
   font-weight: 700;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+@media (max-width: 720px) {
+  .page {
+    padding-top: 1rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .hero {
+    border-radius: 18px;
+  }
+
+  .panel {
+    padding: 0.85rem;
   }
 }
 
-@keyframes slideUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
